@@ -1,0 +1,62 @@
+Documento de Contexto de Proyecto: DUDEX
+Versión: 1.0 - MVP
+Descripción corta: El "Equifax" o Buró de Confianza colaborativo para el comercio informal en Latinoamérica (con foco inicial en Venezuela).
+
+1. Resumen Ejecutivo
+Dudex es una plataforma tecnológica ligera (idealmente un Bot de WhatsApp o Web App de cero fricción) diseñada para que pequeños comerciantes, bodegas y vendedores de redes sociales puedan consultar y reportar el comportamiento de pago de sus clientes. Su objetivo es mitigar el riesgo de otorgar créditos informales ("fiar") y utilizar la presión social positiva/negativa para acelerar la recuperación de cuentas por cobrar.
+
+2. El Problema a Resolver
+En economías con alta informalidad y contracción del crédito bancario tradicional (ej. Venezuela), el comercio se mueve a través del crédito informal (el "fiado" o "sistema de apartado").
+
+El comerciante asume el 100% del riesgo.
+
+Los clientes no tienen incentivos reales para pagar a tiempo, ya que no existe un historial crediticio centralizado que los penalice. Si quedan debiendo en una bodega, simplemente van a la de la otra cuadra.
+
+Esto genera graves problemas de liquidez y pérdida de capital de trabajo para los microempresarios.
+
+3. Público Objetivo (Early Adopters)
+Dueños de abastos, minimarkets y bodegas en comunidades locales cerradas (mercados municipales, urbanizaciones).
+
+Vendedores de ropa, zapatos o tecnología por Instagram/WhatsApp.
+
+Prestamistas informales que necesitan evaluar riesgo antes de soltar capital.
+
+4. Funcionalidades Core del MVP (Versión 1.0)
+El MVP debe estar enfocado en la Cero Fricción. No requiere descargas de apps nativas por parte del comerciante.
+
+El Semáforo de Confianza (Consulta por Cédula/ID):
+
+El comerciante ingresa el número de documento del cliente.
+
+Dudex devuelve un estado visual rápido:
+
+🟢 Verde: Buen pagador / Sin reportes negativos.
+
+🟡 Amarillo: Precaución (Atrasos leves ya solventados o sin historial).
+
+🔴 Rojo: Alto Riesgo (Reportes activos de deudas en otros comercios de la red).
+
+Sistema de Reporte Bidireccional:
+
+El comerciante puede reportar fácilmente tanto el pago exitoso (para construir reputación positiva al cliente) como el default/morosidad.
+
+Notificación Disuasiva Automatizada:
+
+Al ser reportado por mora, Dudex envía un mensaje automatizado y respetuoso por WhatsApp/SMS al deudor.
+
+Objetivo: Generar percepción de que la deuda ya no es un secreto entre él y el bodeguero, sino que afecta su reputación en la red "Dudex", incentivando el pago rápido.
+
+5. Estrategia de Lanzamiento (Cold-Start Hack)
+Para solucionar el problema de "base de datos vacía" el día 1, el lanzamiento será hiperlocal. Se abordará un mercado físico específico o un gremio local. Se ofrecerá acceso Premium gratuito a los comercios fundadores a cambio de que suban su cuaderno de "fiados" actual (deudores históricos) para nutrir la base de datos inicial.
+
+6. Modelo de Monetización (Propuesto)
+Freemium B2B: Es 100% gratis para los comercios reportar información (para incentivar la alimentación de la base de datos).
+
+Se cobra una micro-suscripción mensual (ej. $2.99 - $5.00) por tener acceso a consultas ilimitadas del "Semáforo" antes de fiar, o se cobra por "Token" (ej. $0.10 por consulta).
+
+7. Requerimientos actuales para Antigravity
+(Nota para el usuario: Dependiendo de lo que haga Antigravity, puedes dejarle una de estas dos instrucciones al final del documento)
+
+Si Antigravity va a programar: "Por favor, propón una arquitectura No-Code o Low-Code (ej. Make, Chatfuel, Supabase, Glide) para construir este MVP en menos de 2 semanas, detallando el flujo de datos del Bot de WhatsApp."
+
+Si Antigravity va a estructurar el negocio/legal: "Por favor, genera un esquema de Términos y Condiciones y una estrategia de Protección de Datos Personales para que este modelo de reporte de morosidad no infrinja leyes de privacidad o difamación en Latinoamérica."
