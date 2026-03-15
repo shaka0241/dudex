@@ -62,5 +62,4 @@ Si Antigravity va a programar: "Por favor, propón una arquitectura No-Code o Lo
 Si Antigravity va a estructurar el negocio/legal: "Por favor, genera un esquema de Términos y Condiciones y una estrategia de Protección de Datos Personales para que este modelo de reporte de morosidad no infrinja leyes de privacidad o difamación en Latinoamérica."
 
 ¿Qué sigue ahora?
-En este punto, la arquitectura de usuarios está lista. 
-Lo siguiente para el desarrollo del MVP es decidir cómo deseas estructurar la base de datos para almacenar los Reportes y Clientes de manera que se asocien a estos comerciantes que ahora pueden iniciar sesión.
+En este punto, la arquitectura de usuarios está lista. Lo siguiente para el desarrollo del MVP es decidir cómo deseas estructurar la base de datos para almacenar los Reportes y Clientes de manera que se asocien a estos comerciantes que ahora pueden iniciar sesión.
