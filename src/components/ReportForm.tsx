@@ -2,22 +2,47 @@
 
 import { useState } from "react";
 import styles from "./ReportForm.module.css";
+import { createReport } from "@/app/actions/reports";
 
 export default function ReportForm() {
   const [docId, setDocId] = useState("");
   const [reason, setReason] = useState("");
   const [submitted, setSubmitted] = useState<"DEBT" | "PAYMENT" | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleReport = (type: "DEBT" | "PAYMENT") => {
+  const handleReport = async (type: "DEBT" | "PAYMENT") => {
     if (!docId.trim()) return;
-    setSubmitted(type);
     
-    // Reset form after a few seconds to demo
-    setTimeout(() => {
-      setSubmitted(null);
-      setDocId("");
-      setReason("");
-    }, 4000);
+    setIsLoading(true);
+    setError("");
+
+    try {
+      await createReport({
+        nationalId: docId,
+        description: reason || (type === "DEBT" ? "Deuda registrada" : "Buen pago registrado"),
+        status: type === "DEBT" ? "DANGER" : "POSITIVE",
+      });
+
+      setSubmitted(type);
+      
+      // Reset form after a few seconds to demo
+      setTimeout(() => {
+        setSubmitted(null);
+        setDocId("");
+        setReason("");
+      }, 4000);
+
+    } catch (err: unknown) {
+      console.error(err);
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("Ocurrió un error al guardar el reporte");
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -37,6 +62,8 @@ export default function ReportForm() {
             </p>
           </div>
 
+          {error && <div style={{ color: 'red', fontSize: '14px', marginBottom: '16px', textAlign: 'center' }}>{error}</div>}
+
           <div className={styles.inputGroup}>
             <div className={styles.inputWrapper}>
               <label htmlFor="reportDocId" className={styles.label}>Cédula o Documento</label>
@@ -44,10 +71,11 @@ export default function ReportForm() {
                 id="reportDocId"
                 type="text"
                 className={styles.input}
-                placeholder="Ej. 12345678"
+                placeholder="Ej. V-12345678"
                 value={docId}
                 onChange={(e) => setDocId(e.target.value)}
                 autoComplete="off"
+                disabled={isLoading}
               />
             </div>
             
@@ -61,6 +89,7 @@ export default function ReportForm() {
                 value={reason}
                 onChange={(e) => setReason(e.target.value)}
                 autoComplete="off"
+                disabled={isLoading}
               />
             </div>
 
@@ -69,17 +98,17 @@ export default function ReportForm() {
                 type="button" 
                 onClick={() => handleReport("DEBT")}
                 className={`${styles.button} ${styles.buttonDanger}`}
-                disabled={!docId}
+                disabled={!docId || isLoading}
               >
-                Reportar Mora
+                {isLoading ? "Guardando..." : "Reportar Mora"}
               </button>
               <button 
                 type="button" 
                 onClick={() => handleReport("PAYMENT")}
                 className={`${styles.button} ${styles.buttonSuccess}`}
-                disabled={!docId}
+                disabled={!docId || isLoading}
               >
-                Sumar Crédito
+               {isLoading ? "Guardando..." : "Sumar Crédito"}
               </button>
             </div>
           </div>

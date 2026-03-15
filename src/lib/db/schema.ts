@@ -45,3 +45,23 @@ export const verification = pgTable("verification", {
     createdAt: timestamp("createdAt"),
     updatedAt: timestamp("updatedAt")
 });
+
+export const client = pgTable("client", {
+    id: text("id").primaryKey(), // We can use crypto.randomUUID() when inserting
+    nationalIdHash: text("nationalIdHash").notNull().unique(), // The hashed Cedula/DNI
+    name: text("name"), // Optional reference name
+    createdAt: timestamp("createdAt").notNull().defaultNow(),
+    updatedAt: timestamp("updatedAt").notNull().defaultNow(),
+});
+
+export const report = pgTable("report", {
+    id: text("id").primaryKey(), // crypto.randomUUID()
+    clientId: text("clientId").notNull().references(() => client.id, { onDelete: 'cascade' }),
+    merchantId: text("merchantId").notNull().references(() => user.id, { onDelete: 'cascade' }),
+    status: text("status", { enum: ['POSITIVE', 'WARNING', 'DANGER'] }).notNull(),
+    amount: text("amount"), // Optional amount (string to avoid float issues, or could be numeric)
+    description: text("description").notNull(),
+    resolvedAt: timestamp("resolvedAt"), // Null if not resolved
+    createdAt: timestamp("createdAt").notNull().defaultNow(),
+    updatedAt: timestamp("updatedAt").notNull().defaultNow(),
+});

@@ -60,3 +60,6 @@ Se cobra una micro-suscripción mensual (ej. $2.99 - $5.00) por tener acceso a c
 Si Antigravity va a programar: "Por favor, propón una arquitectura No-Code o Low-Code (ej. Make, Chatfuel, Supabase, Glide) para construir este MVP en menos de 2 semanas, detallando el flujo de datos del Bot de WhatsApp."
 
 Si Antigravity va a estructurar el negocio/legal: "Por favor, genera un esquema de Términos y Condiciones y una estrategia de Protección de Datos Personales para que este modelo de reporte de morosidad no infrinja leyes de privacidad o difamación en Latinoamérica."
+
+¿Qué sigue ahora?
+En este punto, la arquitectura de usuarios está lista. Lo siguiente para el desarrollo del MVP es decidir cómo deseas estructurar la base de datos para almacenar los Reportes y Clientes de manera que se asocien a estos comerciantes que ahora pueden iniciar sesión.

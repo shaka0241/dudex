@@ -2,30 +2,33 @@
 
 import { useState } from "react";
 import styles from "./Semaphore.module.css";
+import { checkSemaphoreStatus, SemaphoreStatus } from "@/app/actions/reports";
 
-type Status = "IDLE" | "LOADING" | "GREEN" | "YELLOW" | "RED";
+type Status = "IDLE" | "LOADING" | SemaphoreStatus;
 
 export default function Semaphore() {
   const [docId, setDocId] = useState("");
   const [status, setStatus] = useState<Status>("IDLE");
+  const [message, setMessage] = useState<string>("");
+  const [totalReports, setTotalReports] = useState<number>(0);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!docId.trim()) return;
 
     setStatus("LOADING");
+    setMessage("");
 
-    // Simulate network request and logic based on input for demo purposes
-    setTimeout(() => {
-      const lastChar = docId.slice(-1);
-      if (["0", "1", "2"].includes(lastChar)) {
-        setStatus("RED");
-      } else if (["3", "4", "5"].includes(lastChar)) {
-        setStatus("YELLOW");
-      } else {
-        setStatus("GREEN");
-      }
-    }, 1200);
+    try {
+      const result = await checkSemaphoreStatus(docId);
+      setStatus(result.status);
+      setMessage(result.message || "");
+      setTotalReports(result.totalReports);
+    } catch (error) {
+      console.error(error);
+      setMessage("Error al consultar la base de datos");
+      setStatus("IDLE");
+    }
   };
 
   return (
@@ -39,7 +42,7 @@ export default function Semaphore() {
             id="docId"
             type="text"
             className={styles.input}
-            placeholder="Ej. 12345678"
+            placeholder="Ej. V-12345678"
             value={docId}
             onChange={(e) => {
               setDocId(e.target.value);
@@ -59,6 +62,18 @@ export default function Semaphore() {
         </button>
       </form>
 
+      {status === "UNKNOWN" && (
+        <div className={`${styles.resultCard} ${styles.green}`}>
+          <div className={styles.resultHeader}>
+            <div className={styles.statusIcon}>?</div>
+            <h3 className={styles.statusTitle}>Sin Historial</h3>
+          </div>
+          <p className={styles.statusMessage}>
+            {message}
+          </p>
+        </div>
+      )}
+
       {status === "GREEN" && (
         <div className={`${styles.resultCard} ${styles.green}`}>
           <div className={styles.resultHeader}>
@@ -66,8 +81,7 @@ export default function Semaphore() {
             <h3 className={styles.statusTitle}>Buen Pagador</h3>
           </div>
           <p className={styles.statusMessage}>
-            Este cliente no tiene reportes negativos en la red Dudex. Es de
-            confianza para fiar.
+            {message} (Basado en {totalReports} reportes)
           </p>
         </div>
       )}
@@ -79,8 +93,7 @@ export default function Semaphore() {
             <h3 className={styles.statusTitle}>Precaución</h3>
           </div>
           <p className={styles.statusMessage}>
-            Tiene algunos atrasos leves reportados que ya fueron solventados, o
-            es un perfil nuevo sin mucho historial crediticio local.
+            {message} (Basado en {totalReports} reportes)
           </p>
         </div>
       )}
@@ -92,8 +105,7 @@ export default function Semaphore() {
             <h3 className={styles.statusTitle}>Alto Riesgo</h3>
           </div>
           <p className={styles.statusMessage}>
-            Este perfil tiene reportes activos de deuda o morosidad en otros
-            comercios de la red Dudex. Sugerimos no fiar a plazo.
+             {message} (Basado en {totalReports} reportes)
           </p>
         </div>
       )}
